@@ -8,10 +8,11 @@ app.secret_key = 'your_secret_key'
 
 # Database configuration
 db_config = {
-    'host': os.environ.get('MYSQL_HOST', 'localhost'),
-    'user': os.environ.get('MYSQL_USER', 'root'),
-    'password': os.environ.get('MYSQL_PASSWORD', '19052006'),
-    'database': os.environ.get('MYSQL_DATABASE', 'hotelmanagementdb')
+    'host': os.environ.get('MYSQLHOST'),
+    'user': os.environ.get('MYSQLUSER'),
+    'password': os.environ.get('MYSQLPASSWORD'),
+    'database': os.environ.get('MYSQLDATABASE'),
+    'port': int(os.environ.get('MYSQLPORT', 3306))
 }
 
 def get_db_connection():
