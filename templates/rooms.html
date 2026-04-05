@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">🏨 Hotel Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/rooms">Rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/guests">Guests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bookings">Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Manage Rooms</h1>
+        <form method="POST" class="mb-4">
+            <div class="card p-4">
+                <div class="mb-3">
+                    <label for="room_number" class="form-label">Room Number</label>
+                    <input type="text" class="form-control" id="room_number" name="room_number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="room_type" class="form-label">Room Type</label>
+                    <input type="text" class="form-control" id="room_type" name="room_type" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price_per_night" class="form-label">Price Per Night</label>
+                    <input type="number" class="form-control" id="price_per_night" name="price_per_night" required>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-teal">Add Room</button>
+            </div>
+        </form>
+        <h2 class="mb-4">Room List</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Room ID</th>
+                    <th>Room Number</th>
+                    <th>Room Type</th>
+                    <th>Price Per Night</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.room_id }}</td>
+                    <td>{{ room.room_number }}</td>
+                    <td>{{ room.room_type }}</td>
+                    <td>{{ room.price_per_night }}</td>
+                    <td>
+                        {% if room.status == 'Available' %}
+                        <span class="badge badge-available">Available</span>
+                        {% else %}
+                        <span class="badge badge-occupied">Occupied</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
