@@ -68,6 +68,7 @@ def dashboard():
     cursor.execute('SELECT SUM(total_amount) AS total_revenue FROM billing')
     total_revenue = cursor.fetchone()['total_revenue'] or 0
 
+    cursor.close()
     conn.close()
     return render_template('dashboard.html', total_rooms=total_rooms, available_rooms=available_rooms, occupied_rooms=occupied_rooms, total_revenue=total_revenue)
 
@@ -87,10 +88,11 @@ def rooms():
                        (room_number, room_type, price_per_night, status))
         conn.commit()
         flash('Room added successfully!')
-        return redirect(url_for('rooms'))
 
     cursor.execute('SELECT * FROM rooms')
     rooms = cursor.fetchall()
+
+    cursor.close()
     conn.close()
     return render_template('rooms.html', rooms=rooms)
 
@@ -110,10 +112,11 @@ def guests():
                        (full_name, phone, email, id_proof))
         conn.commit()
         flash('Guest registered successfully!')
-        return redirect(url_for('guests'))
 
     cursor.execute('SELECT * FROM guests')
     guests = cursor.fetchall()
+
+    cursor.close()
     conn.close()
     return render_template('guests.html', guests=guests)
 
@@ -134,7 +137,6 @@ def bookings():
                        (guest_id, room_id, check_in, check_out, status))
         conn.commit()
         flash('Booking created successfully!')
-        return redirect(url_for('bookings'))
 
     cursor.execute('SELECT * FROM bookings')
     bookings = cursor.fetchall()
@@ -142,6 +144,8 @@ def bookings():
     guests = cursor.fetchall()
     cursor.execute('SELECT * FROM rooms')
     rooms = cursor.fetchall()
+
+    cursor.close()
     conn.close()
     return render_template('bookings.html', bookings=bookings, guests=guests, rooms=rooms)
 
@@ -168,6 +172,7 @@ def checkout(booking_id):
     else:
         flash('Booking not found!', 'danger')
 
+    cursor.close()
     conn.close()
     return redirect(url_for('bookings'))
 
@@ -187,12 +192,13 @@ def billing():
                        (booking_id, total_amount, payment_status, payment_date))
         conn.commit()
         flash('Bill generated successfully!')
-        return redirect(url_for('billing'))
 
     cursor.execute('SELECT * FROM billing')
     billing = cursor.fetchall()
     cursor.execute('SELECT * FROM bookings')
     bookings = cursor.fetchall()
+
+    cursor.close()
     conn.close()
     return render_template('billing.html', billing=billing, bookings=bookings)
 
